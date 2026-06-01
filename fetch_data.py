@@ -8,18 +8,30 @@ ticker = input("Enter ticker symbol (e.g. RELIANCE.NS, TCS.NS, AAPL): ").upper()
 # Download financial data
 company = yf.Ticker(ticker)
 
-# Get income statement
+# Get financial statements
 income_statement = company.financials
+balance_sheet = company.balance_sheet
+cash_flow = company.cashflow
 
-# Extract the rows we care about
+# Extract income statement data
 revenue = income_statement.loc['Total Revenue']
 net_income = income_statement.loc['Net Income']
 
-# Create a clean dataframe
+# Extract balance sheet data
+total_assets = balance_sheet.loc['Total Assets']
+total_debt = balance_sheet.loc['Total Debt']
+
+# Extract cash flow data
+operating_cash_flow = cash_flow.loc['Operating Cash Flow']
+
+# Create clean dataframe
 data = pd.DataFrame({
     'year': revenue.index.year,
     'revenue': revenue.values,
-    'net_income': net_income.values
+    'net_income': net_income.values,
+    'total_assets': total_assets.values,
+    'total_debt': total_debt.values,
+    'operating_cash_flow': operating_cash_flow.values
 })
 
 print("\nClean Data:")
